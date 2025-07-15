@@ -5,6 +5,7 @@ import { useTasks } from '@/features/task-management/hooks/useTasks';
 import { Card, CardContent } from '@/shared/ui/card';
 import { CheckSquare, AlertCircle, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { UserProfile } from '@/features/auth/components/UserProfile';
 
 export const TasksPage: React.FC = () => {
   const {
@@ -85,6 +86,7 @@ export const TasksPage: React.FC = () => {
                 <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
                 <span className="hidden sm:inline">Refresh</span>
               </Button>
+              <UserProfile />
             </div>
           </div>
         </div>

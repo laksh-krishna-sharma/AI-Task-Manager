@@ -18,28 +18,15 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, loading }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    console.log('Form submitted with title:', title);
-    
-    if (!title.trim()) {
-      console.log('Title is empty, not submitting');
-      return;
-    }
+    if (!title.trim()) return;
 
     setIsSubmitting(true);
     try {
-      console.log('Calling onSubmit with data:', {
+      await onSubmit({
         title: title.trim(),
         dueDate: dueDate || undefined,
         completed: false,
       });
-      
-      const result = await onSubmit({
-        title: title.trim(),
-        dueDate: dueDate || undefined,
-        completed: false,
-      });
-      
-      console.log('Task created successfully:', result);
       
       // Reset form on success
       setTitle('');
@@ -106,11 +93,6 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, loading }) => {
             <Plus className={`w-4 h-4 mr-2 ${isSubmitting ? 'animate-spin' : ''}`} />
             {isSubmitting ? 'Creating Task...' : 'Create Task'}
           </Button>
-          
-          {/* Debug info */}
-          <div className="text-xs text-muted-foreground mt-2">
-            Debug: Title="{title}", Loading={loading.toString()}, Submitting={isSubmitting.toString()}, Disabled={isDisabled.toString()}
-          </div>
         </form>
       </CardContent>
     </Card>

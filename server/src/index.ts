@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import tasks from './routes/task';
+import auth from './routes/auth';
 
 const app = new Hono();
 
@@ -9,6 +10,7 @@ app.use('*', cors({
   credentials: true 
 }));
 
+app.route('/api/auth', auth);
 app.route('/api/tasks', tasks);
 
 app.get('/', (c) => c.text('Todo API is running'));

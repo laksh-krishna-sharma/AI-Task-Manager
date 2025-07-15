@@ -1,7 +1,7 @@
-export interface Task {
-  id: string;
+export type Task = {
+  id?: string;
   title: string;
-  dueDate?: string;
+  dueDate: string | null;
   completed: boolean;
-  createdAt: string;
-}
+  userId: string;
+};
