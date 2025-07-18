@@ -2,16 +2,18 @@ import { apiClient } from '@/shared/api/base';
 
 export interface User {
   id: string;
-  username: string;
+  email: string;
+  name: string;
 }
 
 export interface LoginCredentials {
-  username: string;
+  email: string;
   password: string;
 }
 
 export interface RegisterCredentials {
-  username: string;
+  email: string;
+  name: string;
   password: string;
 }
 

@@ -29,7 +29,7 @@ export const UserProfile: React.FC = () => {
         <div className="p-1 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full">
           <User className="w-4 h-4 text-white" />
         </div>
-        <span className="hidden sm:inline text-sm font-medium">{user.username}</span>
+        <span className="hidden sm:inline text-sm font-medium">{user.name}</span>
         <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </Button>
 
@@ -51,8 +51,8 @@ export const UserProfile: React.FC = () => {
                     <User className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <p className="font-medium">{user.username}</p>
-                    <p className="text-xs text-muted-foreground">User ID: {user.id.slice(0, 8)}...</p>
+                    <p className="font-medium">{user.name}</p>
+                    <p className="text-xs text-muted-foreground">{user.email}</p>
                   </div>
                 </div>
 

@@ -96,7 +96,7 @@ export const useAuthProvider = (): AuthContextType => {
       await authApi.register(credentials);
       
       // Auto-login after successful registration
-      await login(credentials);
+      await login({ email: credentials.email, password: credentials.password });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Registration failed';
       setState(prev => ({

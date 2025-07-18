@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { UserPlus, User, Lock, Eye, EyeOff, CheckCircle } from 'lucide-react';
 
 interface RegisterFormProps {
-  onSubmit: (credentials: { username: string; password: string }) => Promise<void>;
+  onSubmit: (credentials: { email: string; name: string; password: string }) => Promise<void>;
   loading: boolean;
   error?: string;
   onSwitchToLogin: () => void;
@@ -17,7 +17,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
   error,
   onSwitchToLogin,
 }) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -27,20 +28,21 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!username.trim() || !password.trim() || password !== confirmPassword) return;
+    if (!email.trim() || !name.trim() || !password.trim() || password !== confirmPassword) return;
 
     setIsSubmitting(true);
     try {
-      await onSubmit({ username: username.trim(), password });
+      await onSubmit({ email: email.trim(), name: name.trim(), password });
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const isUsernameValid = username.trim().length >= 3;
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+  const isNameValid = name.trim().length >= 2;
   const isPasswordValid = password.length >= 6;
   const isConfirmPasswordValid = confirmPassword === password && password.length > 0;
-  const isFormValid = isUsernameValid && isPasswordValid && isConfirmPasswordValid;
+  const isFormValid = isEmailValid && isNameValid && isPasswordValid && isConfirmPasswordValid;
   const isDisabled = loading || isSubmitting;
 
   return (
@@ -66,23 +68,44 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
           )}
 
           <div className="space-y-2">
-            <label htmlFor="username" className="text-sm font-medium flex items-center gap-2">
+            <label htmlFor="email" className="text-sm font-medium flex items-center gap-2">
               <User className="w-4 h-4" />
-              Username
-              {isUsernameValid && <CheckCircle className="w-4 h-4 text-green-500" />}
+              Email
+              {isEmailValid && <CheckCircle className="w-4 h-4 text-green-500" />}
             </label>
             <Input
-              id="username"
-              type="text"
-              placeholder="Choose a username (min 3 characters)"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              id="email"
+              type="email"
+              placeholder="Enter your email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               disabled={isDisabled}
               className="transition-smooth focus:scale-[1.02] hover-glow"
-              autoComplete="username"
+              autoComplete="email"
             />
-            {username.length > 0 && !isUsernameValid && (
-              <p className="text-xs text-muted-foreground">Username must be at least 3 characters</p>
+            {email.length > 0 && !isEmailValid && (
+              <p className="text-xs text-muted-foreground">Please enter a valid email address</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="name" className="text-sm font-medium flex items-center gap-2">
+              <User className="w-4 h-4" />
+              Full Name
+              {isNameValid && <CheckCircle className="w-4 h-4 text-green-500" />}
+            </label>
+            <Input
+              id="name"
+              type="text"
+              placeholder="Enter your full name (min 2 characters)"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              disabled={isDisabled}
+              className="transition-smooth focus:scale-[1.02] hover-glow"
+              autoComplete="name"
+            />
+            {name.length > 0 && !isNameValid && (
+              <p className="text-xs text-muted-foreground">Name must be at least 2 characters</p>
             )}
           </div>
 

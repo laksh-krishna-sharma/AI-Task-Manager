@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { LogIn, User, Lock, Eye, EyeOff } from 'lucide-react';
 
 interface LoginFormProps {
-  onSubmit: (credentials: { username: string; password: string }) => Promise<void>;
+  onSubmit: (credentials: { email: string; password: string }) => Promise<void>;
   loading: boolean;
   error?: string;
   onSwitchToRegister: () => void;
@@ -17,7 +17,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   error,
   onSwitchToRegister,
 }) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -25,11 +25,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!username.trim() || !password.trim()) return;
+    if (!email.trim() || !password.trim()) return;
 
     setIsSubmitting(true);
     try {
-      await onSubmit({ username: username.trim(), password });
+      await onSubmit({ email: email.trim(), password });
     } finally {
       setIsSubmitting(false);
     }
@@ -60,19 +60,19 @@ export const LoginForm: React.FC<LoginFormProps> = ({
           )}
 
           <div className="space-y-2">
-            <label htmlFor="username" className="text-sm font-medium flex items-center gap-2">
+            <label htmlFor="email" className="text-sm font-medium flex items-center gap-2">
               <User className="w-4 h-4" />
-              Username
+              Email
             </label>
             <Input
-              id="username"
-              type="text"
-              placeholder="Enter your username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              id="email"
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               disabled={isDisabled}
               className="transition-smooth focus:scale-[1.02] hover-glow"
-              autoComplete="username"
+              autoComplete="email"
             />
           </div>
 
@@ -105,7 +105,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
 
           <Button
             type="submit"
-            disabled={isDisabled || !username.trim() || !password.trim()}
+            disabled={isDisabled || !email.trim() || !password.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())}
             className="w-full transition-bounce hover:scale-105 hover-glow"
           >
             <LogIn className={`w-4 h-4 mr-2 ${isSubmitting ? 'animate-spin' : ''}`} />
